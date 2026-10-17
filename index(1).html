@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111318">
+<title>RiffRoom — Interactive Tabs</title>
+<style>
+:root{color-scheme:dark;--bg:#101116;--panel:#191b23;--panel2:#20232d;--line:#303440;--text:#f4f5f8;--muted:#a4a8b5;--accent:#b8f35a;--accent2:#8ccf31}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select{font:inherit}button{cursor:pointer}.topbar{height:68px;display:flex;align-items:center;gap:28px;padding:0 clamp(16px,4vw,54px);border-bottom:1px solid var(--line);background:#14151b;position:sticky;top:0;z-index:10}.brand{display:flex;align-items:center;gap:10px;font-weight:850;font-size:20px;letter-spacing:-.8px;white-space:nowrap}.logo{width:31px;height:31px;border-radius:9px;background:var(--accent);color:#141711;display:grid;place-items:center;font-size:20px;font-weight:900}.search{max-width:480px;flex:1;position:relative}.search input{width:100%;background:#22242d;border:1px solid #343744;border-radius:10px;padding:11px 14px 11px 38px;color:var(--text);outline:none}.search input:focus{border-color:var(--accent)}.search span{position:absolute;left:13px;top:9px;color:var(--muted)}.navlinks{display:flex;gap:20px;margin-left:auto}.navlinks a{color:var(--muted);text-decoration:none;font-weight:650}.navlinks a:hover{color:var(--accent)}main{max-width:1200px;margin:0 auto;padding:34px 24px 80px}.eyebrow{color:var(--accent);font-size:12px;letter-spacing:1.8px;font-weight:800;text-transform:uppercase}.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:8px 0 24px}.heading h1{font-size:clamp(28px,4vw,42px);letter-spacing:-1.6px;line-height:1.1;margin:0 0 8px}.sub{color:var(--muted);margin:0}.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 11px;color:var(--muted);font-size:12px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:22px}.player,.sidecard,.tracklist{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}.songhero{padding:22px 24px;display:flex;gap:16px;align-items:center;border-bottom:1px solid var(--line)}.cover{width:76px;height:76px;border-radius:12px;flex-shrink:0;background:radial-gradient(circle at 65% 30%,#e5ff9b,transparent 23%),linear-gradient(135deg,#7a9e35,#252d22 60%,#121319);display:grid;place-items:center;font-size:32px}.songhero h2{margin:0 0 4px;font-size:23px;letter-spacing:-.5px}.songhero p{margin:0;color:var(--muted)}.songactions{margin-left:auto;display:flex;gap:8px}.iconbtn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:9px;padding:9px 12px}.iconbtn:hover{border-color:var(--accent)}.tabs{display:flex;gap:6px;padding:14px 20px;border-bottom:1px solid var(--line);background:#171920}.tab{background:transparent;border:1px solid transparent;color:var(--muted);border-radius:8px;padding:8px 12px;font-weight:750}.tab.active{background:#303629;color:var(--accent);border-color:#4a5a34}.scorewrap{padding:20px 18px 10px;overflow-x:auto}.scorelabel{display:flex;justify-content:space-between;align-items:center;margin:0 4px 12px;color:var(--muted);font-size:12px}.score{min-width:620px;background:#f4f1e7;color:#22241f;border-radius:9px;padding:18px 18px 14px;position:relative;overflow:hidden}.measure{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}.beat{height:40px;position:relative;border-left:1px solid #c7c7bc}.beat:last-child{border-right:1px solid #c7c7bc}.beatnum{position:absolute;top:-15px;left:7px;font-size:10px;color:#77796f}.staff{height:26px;border-top:1px solid #a7a99e;position:relative;margin:0 0 2px}.staff:last-child{border-bottom:1px solid #a7a99e}.fret{position:absolute;top:-9px;left:var(--x);min-width:22px;height:17px;padding:0 3px;background:#f4f1e7;border-radius:4px;text-align:center;font-size:12px;font-weight:850;color:#20231e;z-index:2}.fret.playing{background:#b8f35a;box-shadow:0 0 0 2px #7cae2d}.playhead{position:absolute;top:0;bottom:0;width:2px;background:#78aa26;left:var(--progress,0%);z-index:3;transition:left .12s linear;pointer-events:none}.notation{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;letter-spacing:1px;color:#55594f;margin:12px 0 0;white-space:pre}.controls{padding:16px 20px 20px;border-top:1px solid var(--line)}.transport{display:flex;align-items:center;gap:12px}.play{border:0;border-radius:50%;width:48px;height:48px;background:var(--accent);color:#151810;font-size:19px;font-weight:900;display:grid;place-items:center}.play:hover{background:#d0ff86}.time{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px;white-space:nowrap}.progress{height:6px;border-radius:9px;background:#373a45;flex:1;cursor:pointer;overflow:hidden}.progressfill{height:100%;width:0;background:var(--accent);border-radius:9px}.controlbottom{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:16px}.control{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12px}.control strong{color:var(--text);min-width:35px}.control input{width:110px;accent-color:var(--accent)}.control select{background:var(--panel2);color:var(--text);border:1px solid var(--line);padding:6px;border-radius:7px}.check{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12px}.check input{accent-color:var(--accent)}.sidecard{padding:20px;margin-bottom:16px}.sidecard h3{font-size:15px;margin:0 0 14px}.statrow{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:13px}.statrow:last-child{border-bottom:0}.statrow strong{color:var(--text)}.tip{font-size:13px;color:var(--muted);margin:0}.tip b{color:var(--accent)}.tracklist{margin-top:24px}.sectionhead{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}.sectionhead h3{margin:0;font-size:17px}.track{display:flex;align-items:center;gap:14px;padding:13px 20px;border-bottom:1px solid #292c35;cursor:pointer}.track:last-child{border-bottom:0}.track:hover,.track.selected{background:#23262f}.tracknum{color:var(--muted);width:20px;text-align:center}.trackcover{width:42px;height:42px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,#3f5366,#1e222b);font-size:18px}.track:nth-child(3) .trackcover{background:linear-gradient(135deg,#885a49,#28202a)}.track:nth-child(4) .trackcover{background:linear-gradient(135deg,#68624b,#22251e)}.trackinfo{flex:1}.trackinfo strong{display:block;font-size:14px}.trackinfo small{color:var(--muted)}.trackmeta{color:var(--muted);font-size:12px}.footer{margin-top:34px;text-align:center;color:#777b89;font-size:12px}.notice{color:var(--muted);font-size:12px;margin-top:12px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr;gap:14px}.sidecard{margin:0}.navlinks{display:none}.heading{align-items:flex-start;flex-direction:column}}@media(max-width:560px){main{padding:24px 12px 50px}.topbar{padding:0 14px;gap:14px}.brand{font-size:18px}.search input{font-size:13px}.songhero{padding:16px}.cover{width:60px;height:60px}.songhero h2{font-size:19px}.songactions .iconbtn{padding:7px}.sidebar{grid-template-columns:1fr}.scorewrap{padding:14px 10px}.controls{padding:14px}.controlbottom{gap:13px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="logo">♪</div> riffroom</div>
+  <label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search songs, artists, or bands…" aria-label="Search songs"></label>
+  <nav class="navlinks"><a href="#player">Player</a><a href="#songs">Browse tabs</a><a href="#about">About</a></nav>
+</header>
+<main>
+  <div class="eyebrow">Your music, note by note</div>
+  <div class="heading"><div><h1>Learn the riff.<br>Play it your way.</h1><p class="sub">Interactive tablature for guitar, bass, and more.</p></div><span class="pill">● DEMO PLAYER · NO ACCOUNT NEEDED</span></div>
+  <div class="layout">
+    <section>
+      <article class="player" id="player">
+        <div class="songhero">
+          <div class="cover">♫</div>
+          <div><h2 id="songTitle">Midnight Drive</h2><p id="songArtist">RiffRoom Originals · Rock</p><div style="margin-top:8px"><span class="pill" id="songLevel">Intermediate</span></div></div>
+          <div class="songactions"><button class="iconbtn" id="favorite" title="Favorite this song" aria-label="Favorite">♡</button><button class="iconbtn" id="share" title="Copy page link">↗</button></div>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Instrument">
+          <button class="tab active" data-instrument="Guitar">🎸 Guitar</button><button class="tab" data-instrument="Bass">Bass</button><button class="tab" data-instrument="Drums">🥁 Drums</button>
+        </div>
+        <div class="scorewrap">
+          <div class="scorelabel"><span id="scoreName">Guitar tab · Standard tuning</span><span id="barLabel">BAR 1 / 4</span></div>
+          <div class="score" id="score">
+            <div class="playhead" id="playhead"></div>
+            <div class="measure" id="measure">
+              <div class="beat"><span class="beatnum">1</span></div><div class="beat"><span class="beatnum">2</span></div><div class="beat"><span class="beatnum">3</span></div><div class="beat"><span class="beatnum">4</span></div>
+            </div>
+            <div id="staffs"></div>
+            <div class="notation" id="notation">e|----0-------3-------5-------3---|
+B|--------1-------1-------1-------|
+G|--------------------------------|</div>
+          </div>
+          <p class="notice">Demo notation only — use the controls to explore playback speed and instruments.</p>
+        </div>
+        <div class="controls">
+          <div class="transport"><button class="play" id="play" aria-label="Play">▶</button><span class="time" id="elapsed">0:00</span><div class="progress" id="progress" role="slider" tabindex="0" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progressfill" id="progressfill"></div></div><span class="time" id="duration">0:16</span><button class="iconbtn" id="restart" title="Restart">↺</button></div>
+          <div class="controlbottom">
+            <label class="control">Tempo <strong id="tempoValue">100%</strong><input id="tempo" type="range" min="50" max="150" value="100"></label>
+            <label class="control">Transpose <select id="transpose"><option value="0">0 semitones</option><option value="1">+1</option><option value="2">+2</option><option value="-1">−1</option><option value="-2">−2</option></select></label>
+            <label class="check"><input type="checkbox" id="loop"> Loop</label>
+            <label class="check"><input type="checkbox" id="metronome"> Metronome</label>
+          </div>
+        </div>
+      </article>
+      <article class="tracklist" id="songs">
+        <div class="sectionhead"><h3>Popular practice tracks</h3><span class="pill" id="resultCount">4 tracks</span></div>
+        <div id="trackRows">
+          <div class="track selected" tabindex="0" data-title="Midnight Drive" data-artist="RiffRoom Originals" data-level="Intermediate" data-style="Rock" data-icon="♫"><div class="tracknum">1</div><div class="trackcover">♫</div><div class="trackinfo"><strong>Midnight Drive</strong><small>RiffRoom Originals · Rock</small></div><span class="trackmeta">Intermediate</span></div>
+          <div class="track" tabindex="0" data-title="Paper Satellites" data-artist="The Skylines" data-level="Beginner" data-style="Indie" data-icon="✦"><div class="tracknum">2</div><div class="trackcover">✦</div><div class="trackinfo"><strong>Paper Satellites</strong><small>The Skylines · Indie</small></div><span class="trackmeta">Beginner</span></div>
+          <div class="track" tabindex="0" data-title="Rust &amp; Thunder" data-artist="Static Bloom" data-level="Advanced" data-style="Alt. Rock" data-icon="⚡"><div class="tracknum">3</div><div class="trackcover">⚡</div><div class="trackinfo"><strong>Rust &amp; Thunder</strong><small>Static Bloom · Alt. Rock</small></div><span class="trackmeta">Advanced</span></div>
+          <div class="track" tabindex="0" data-title="Last Train Home" data-artist="RiffRoom Originals" data-level="Beginner" data-style="Acoustic" data-icon="☾"><div class="tracknum">4</div><div class="trackcover">☾</div><div class="trackinfo"><strong>Last Train Home</strong><small>RiffRoom Originals · Acoustic</small></div><span class="trackmeta">Beginner</span></div>
+        </div>
+      </article>
+    </section>
+    <aside class="sidebar">
+      <div class="sidecard"><h3>Track details</h3><div class="statrow"><span>Key</span><strong id="key">E minor</strong></div><div class="statrow"><span>Tuning</span><strong id="tuning">E A D G B E</strong></div><div class="statrow"><span>Tempo</span><strong id="bpm">120 BPM</strong></div><div class="statrow"><span>Time signature</span><strong>4/4</strong></div><div class="statrow"><span>Difficulty</span><strong id="difficulty">Intermediate</strong></div></div>
+      <div class="sidecard"><h3>Practice tip</h3><p class="tip"><b>Start slow.</b> Set the tempo to 70%, play along with the beat, then gradually bring it back up. Consistency beats speed.</p></div>
+      <div class="sidecard"><h3>Coming soon</h3><p class="tip">Add your own tabs, save favorites, switch between song sections, and share arrangements with friends.</p></div>
+    </aside>
+  </div>
+  <div class="footer" id="about">RiffRoom is a fan-made demo template. It is not affiliated with Songsterr. Add your own licensed tablature and audio before publishing.</div>
+</main>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  let playing=false, elapsed=0, duration=16, timer=null, instrument='Guitar', selectedTrack=null, beat=0, audioCtx=null, osc=null, gain=null;
+  const trackData = {
+    'Midnight Drive': {artist:'RiffRoom Originals',level:'Intermediate',style:'Rock',key:'E minor',tuning:'E A D G B E',bpm:120,notes:[0,3,5,3,0,3,7,5,2,5,7,5,0,3,5,7]},
+    'Paper Satellites': {artist:'The Skylines',level:'Beginner',style:'Indie',key:'G major',tuning:'E A D G B E',bpm:92,notes:[0,2,3,2,0,2,5,3,0,2,3,5,3,2,0,0]},
+    'Rust & Thunder': {artist:'Static Bloom',level:'Advanced',style:'Alt. Rock',key:'D minor',tuning:'D A D G B E',bpm:145,notes:[0,0,3,5,0,7,5,3,0,0,5,7,8,7,5,3]},
+    'Last Train Home': {artist:'RiffRoom Originals',level:'Beginner',style:'Acoustic',key:'C major',tuning:'E A D G B E',bpm:84,notes:[0,1,3,1,0,1,3,5,3,1,0,1,3,1,0,0]}
+  };
+  function buildScore(){
+    const host=$('#staffs'); host.innerHTML='';
+    const strings=instrument==='Bass'?4:instrument==='Drums'?5:6;
+    const labels=instrument==='Bass'?['G','D','A','E']:instrument==='Drums'?['HH','SD','BD','HT','CY']:['e','B','G','D','A','E'];
+    for(let i=0;i<strings;i++){
+      const row=document.createElement('div');row.className='staff';
+      for(let j=0;j<8;j++){
+        const f=document.createElement('span');f.className='fret';f.style.setProperty('--x',(6+j*12.4)+'%');
+        let n=trackData[$('#songTitle').textContent].notes[(j+Math.floor(i/2)*3)%16];
+        if(instrument==='Drums') n=['x','o','•','x','o','•','x','o'][j];
+        else if(instrument==='Bass') n=(n+2+i)%12;
+        f.textContent=n;row.appendChild(f);
+      }
+      const label=document.createElement('span');label.textContent=labels[i]+'|';label.style.cssText='position:absolute;left:-1px;top:3px;font:10px monospace;color:#6c7066;transform:translateX(-100%);padding-right:5px';row.appendChild(label);host.appendChild(row);
+    }
+    $('#scoreName').textContent=instrument+' tab · '+(instrument==='Bass'?'Bass tuning':instrument==='Drums'?'Drum notation':'Standard tuning');
+    $('#notation').textContent=instrument==='Drums'?'HH|x---x---x---x---|\nSD|----o-------o---|\nBD|o-------o-------|':instrument==='Bass'?'G|----------------|\nD|----2-------5---|\nA|0-------3-------|\nE|----------------|':'e|----0-------3-------5-------3---|\nB|--------1-------1-------1-------|\nG|--------------------------------|';
+  }
+  function selectTrack(el){
+    $$('.track').forEach(t=>t.classList.toggle('selected',t===el));selectedTrack=el;
+    const title=el.dataset.title,d=trackData[title];$('#songTitle').textContent=title;$('#songArtist').textContent=d.artist+' · '+d.style;$('#songLevel').textContent=d.level;$('#key').textContent=d.key;$('#tuning').textContent=d.tuning;$('#bpm').textContent=d.bpm+' BPM';$('#difficulty').textContent=d.level;elapsed=0;stop();updateProgress();buildScore();
+  }
+  function updateProgress(){
+    const pct=duration?elapsed/duration*100:0;$('#progressfill').style.width=pct+'%';$('#playhead').style.setProperty('--progress',pct+'%');$('#elapsed').textContent='0:'+String(Math.floor(elapsed)).padStart(2,'0');$('#barLabel').textContent='BAR '+(Math.min(4,Math.floor(elapsed/4)+1))+' / 4';$('#progress').setAttribute('aria-valuenow',Math.round(pct));
+    const active=Math.floor(elapsed/duration*16);$$('.fret').forEach((f,i)=>f.classList.toggle('playing',i%8===active%8));
+  }
+  function stop(){playing=false;clearInterval(timer);timer=null;$('#play').textContent='▶';$('#play').setAttribute('aria-label','Play');if(osc){try{osc.stop()}catch(e){}osc=null;}}
+  function clickTone(){
+    if(!$('#metronome').checked)return;
+    try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=(Math.floor(elapsed*2)%4===0)?1200:800;g.gain.setValueAtTime(.05,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.05);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.055)}catch(e){}
+  }
+  function togglePlay(){
+    if(playing){stop();return;}playing=true;$('#play').textContent='Ⅱ';$('#play').setAttribute('aria-label','Pause');
+    timer=setInterval(()=>{elapsed+=.1*($('#tempo').value/100);if(elapsed>=duration){if($('#loop').checked)elapsed=0;else{elapsed=duration;updateProgress();stop();return}}if(Math.floor(elapsed*2)!==beat){beat=Math.floor(elapsed*2);if(beat%2===0)clickTone()}updateProgress()},100);
+  }
+  $$('.track').forEach(el=>{el.addEventListener('click',()=>selectTrack(el));el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectTrack(el)}})});
+  $$('.tab').forEach(b=>b.addEventListener('click',()=>{$$('.tab').forEach(x=>x.classList.toggle('active',x===b));instrument=b.dataset.instrument;buildScore()}));
+  $('#play').addEventListener('click',togglePlay);$('#restart').addEventListener('click',()=>{stop();elapsed=0;updateProgress()});
+  $('#tempo').addEventListener('input',e=>$('#tempoValue').textContent=e.target.value+'%');
+  $('#transpose').addEventListener('change',()=>{buildScore();});
+  $('#progress').addEventListener('click',e=>{const r=e.currentTarget.getBoundingClientRect();elapsed=Math.max(0,Math.min(duration,((e.clientX-r.left)/r.width)*duration));updateProgress()});
+  $('#progress').addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){elapsed=Math.max(0,Math.min(duration,elapsed+(e.key==='ArrowRight'?1:-1)));updateProgress()}});
+  $('#favorite').addEventListener('click',e=>{const on=e.currentTarget.textContent==='♥';e.currentTarget.textContent=on?'♡':'♥';e.currentTarget.style.color=on?'':'var(--accent)'});
+  $('#share').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(location.href);$('#share').textContent='✓';setTimeout(()=>$('#share').textContent='↗',1200)}catch(e){alert('Copy this page URL from your browser address bar to share it.')}});
+  $('#search').addEventListener('input',e=>{const q=e.target.value.toLowerCase();let count=0;$$('.track').forEach(t=>{const match=(t.dataset.title+' '+t.dataset.artist+' '+t.dataset.style).toLowerCase().includes(q);t.style.display=match?'flex':'none';if(match)count++});$('#resultCount').textContent=count+' track'+(count===1?'':'s')});
+  buildScore();updateProgress();
+})();
+</script>
+</body>
+</html>
